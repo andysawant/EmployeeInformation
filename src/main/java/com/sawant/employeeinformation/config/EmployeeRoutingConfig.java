@@ -21,10 +21,61 @@ public class EmployeeRoutingConfig {
     @Value("${welcome.url}")
     private String welcomeUrl;
 
+    @Value("${get.all.employees.url}")
+    private String getAllEmployees;
+
+    @Value("${get.employees.by.id.url}")
+    private String getEmployeeById;
+
+    @Value("${add.employees.url}")
+    private String addEmployee;
+
+    @Value("${update.employees.url}")
+    private String updateEmployee;
+
+    @Value("${delete.employees.url}")
+    private String deleteEmployee;
+
     @Bean
     public RouterFunction<ServerResponse> welcome(EmployeeService employeeService){
         return RouterFunctions.route(GET(welcomeUrl), request ->{
             return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Welcome"));
         });
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> getAllEmployees(EmployeeService employeeService){
+        return RouterFunctions.route(GET(getAllEmployees), request ->{
+            return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Welcome"));
+        });
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> getEmployeeById(EmployeeService employeeService){
+        return RouterFunctions.route(GET(getEmployeeById), request ->{
+            return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Welcome"));
+        });
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> addEmployee(EmployeeService employeeService){
+        return RouterFunctions.route(GET(addEmployee), request ->{
+            return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Welcome"));
+        });
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> updateEmployee(EmployeeService employeeService){
+        return RouterFunctions.route(GET(updateEmployee), request ->{
+            return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Welcome"));
+        });
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> deleteEmployee(EmployeeService employeeService){
+        return RouterFunctions.route(GET(deleteEmployee), request ->{
+            return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Welcome"));
+        });
+    }
+
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "employee")
@@ -24,4 +25,7 @@ public class Employee implements Serializable {
 
     @Column(name="address", nullable = false)
     String address;
+
+    @Column(name="dob", nullable = false)
+    Date dob;
 }
