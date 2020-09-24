@@ -1,7 +1,9 @@
 package com.sawant.employeeinformation.config;
 
+import com.sawant.employeeinformation.model.Employee;
 import com.sawant.employeeinformation.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
+
+import java.util.List;
+
 import static org.springframework.web.reactive.function.BodyInserters.fromValue;
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 
@@ -34,6 +39,7 @@ public class EmployeeRoutingConfig {
     @Value("${delete.employees.url}")
     private String deleteEmployee;
 
+    private  static String ID="id";
     @Bean
     public RouterFunction<ServerResponse> welcome(EmployeeService employeeService){
         return RouterFunctions.route(GET(welcomeUrl), request ->{
@@ -44,14 +50,16 @@ public class EmployeeRoutingConfig {
     @Bean
     public RouterFunction<ServerResponse> getAllEmployees(EmployeeService employeeService){
         return RouterFunctions.route(GET(getAllEmployees), request ->{
-            return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Get All Employees"));
+            List<Employee> employeeList=employeeService.getAllEmployees();
+            return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(fromValue(employeeList));
         });
     }
 
     @Bean
     public RouterFunction<ServerResponse> getEmployeeById(EmployeeService employeeService){
         return RouterFunctions.route(GET(getEmployeeById), request ->{
-            return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Get Employee by Id"));
+            String empId=request.pathVariable(ID);
+            return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employeeService.getEmployeeById(Long.parseLong(empId)),Employee.class);
         });
     }
 
