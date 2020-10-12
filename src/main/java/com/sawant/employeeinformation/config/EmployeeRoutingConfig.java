@@ -49,39 +49,41 @@ public class EmployeeRoutingConfig {
 
     @Bean
     public RouterFunction<ServerResponse> getAllEmployees(EmployeeService employeeService){
-        return RouterFunctions.route(GET(getAllEmployees), request ->{
-            List<Employee> employeeList=employeeService.getAllEmployees();
-            return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(fromValue(employeeList));
-        });
+        return RouterFunctions.route(
+                GET(getAllEmployees).and(accept(MediaType.APPLICATION_JSON)),
+                employeeService::getAllEmployees);
     }
 
+    /*
+    @Bean
+    public RouterFunction<ServerResponse> verifyIndividualIdentity(PrepaidIdentityHandler prepaidIdentityHandler) {
+        return RouterFunctions.route(POST(prepaidIdentityConfig.apiPrepaidIdentityVerifyUrl).and(accept(MediaType.APPLICATION_JSON)),
+                prepaidIdentityHandler::verifyIndividualIdentity).filter(new PrepaidChannelFilter());
+    }
+    */
     @Bean
     public RouterFunction<ServerResponse> getEmployeeById(EmployeeService employeeService){
-        return RouterFunctions.route(GET(getEmployeeById), request ->{
-            String empId=request.pathVariable(ID);
-            return ServerResponse.ok().contentType(MediaType.APPLICATION_JSON).body(employeeService.getEmployeeById(Long.parseLong(empId)),Employee.class);
-        });
+        return RouterFunctions.route(GET(getEmployeeById).and(accept(MediaType.APPLICATION_JSON)),
+                employeeService::getEmployeeById);
     }
 
     @Bean
     public RouterFunction<ServerResponse> addEmployee(EmployeeService employeeService){
-        return RouterFunctions.route(POST(addEmployee), request ->{
-            return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Add Employee"));
-        });
+        return RouterFunctions.route(POST(addEmployee).and(accept(MediaType.APPLICATION_JSON)),
+                employeeService::addEmployee);
     }
 
     @Bean
     public RouterFunction<ServerResponse> updateEmployee(EmployeeService employeeService){
-        return RouterFunctions.route(PUT(updateEmployee), request ->{
-            return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Update Employee"));
-        });
+        return RouterFunctions.route(PUT(updateEmployee).and(accept(MediaType.APPLICATION_JSON)),
+                employeeService::updateEmployee);
     }
 
     @Bean
     public RouterFunction<ServerResponse> deleteEmployee(EmployeeService employeeService){
-        return RouterFunctions.route(DELETE(deleteEmployee), request ->{
-            return ServerResponse.ok().contentType(MediaType.TEXT_PLAIN).body(fromValue("Delete Employee"));
-        });
+        return RouterFunctions.route(
+                DELETE(deleteEmployee).and(accept(MediaType.APPLICATION_JSON)),
+                employeeService::deleteEmployee);
     }
 
 }

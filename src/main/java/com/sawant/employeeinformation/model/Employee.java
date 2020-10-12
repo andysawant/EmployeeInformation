@@ -1,13 +1,14 @@
 package com.sawant.employeeinformation.model;
 
-import lombok.Getter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+@Data
 @Entity
-@Table(name = "employee")
+@Table(name = "employee", schema = "public")
 public class Employee implements Serializable {
 
     @Id
